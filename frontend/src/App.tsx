@@ -17,11 +17,13 @@ import logoImg from './assets/Logo.png';
 import titleLightImg from './assets/Title_light_theme.png';
 import titleDarkImg from './assets/Title_dark_theme.png';
 
+const getNormalizedPath = (p: string) => p.replace(/\/+$/, '') || '/';
+
 const MainContent: React.FC = () => {
   const { currentUser, isAuthenticated, authReady } = useAuth();
   const { theme } = useTheme();
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
-  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const [currentPath, setCurrentPath] = useState(getNormalizedPath(window.location.pathname));
 
   const [groups, setGroups] = useState<Group[]>([]);
   const [individualGroups, setIndividualGroups] = useState<Group[]>([]);
@@ -96,7 +98,7 @@ const MainContent: React.FC = () => {
 
   // Check URL query parameters for invite tokens on load (exclude verification route)
   useEffect(() => {
-    if (window.location.pathname === '/verify-email') {
+    if (getNormalizedPath(window.location.pathname) === '/verify-email') {
       return;
     }
 
@@ -190,7 +192,7 @@ const MainContent: React.FC = () => {
 
   // Process pending invitation token when auth status changes
   const processPendingInvite = async () => {
-    if (window.location.pathname === '/verify-email') {
+    if (getNormalizedPath(window.location.pathname) === '/verify-email') {
       return;
     }
 
