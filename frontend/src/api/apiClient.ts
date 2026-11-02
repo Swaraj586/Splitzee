@@ -31,14 +31,15 @@ export const API_BASE_URL = resolveApiBaseUrl();
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
+  timeout: 25000,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Max request attempts when backend is not available
-export const MAX_BACKEND_ATTEMPTS = 5;
-export const RETRY_DELAY_MS = 1000;
+// Max request attempts when waking up the backend (allows up to ~2 minutes for Azure container cold start)
+export const MAX_BACKEND_ATTEMPTS = 50;
+export const RETRY_DELAY_MS = 2500;
 export const BACKEND_BUSY_MESSAGE = 'Buzy right now try again letter';
 
 /**

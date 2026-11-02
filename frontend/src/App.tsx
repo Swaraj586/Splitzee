@@ -10,7 +10,7 @@ import { GroupDetail } from './components/GroupDetail';
 import { VerifyEmail } from './components/VerifyEmail';
 import { ShareAppModal } from './components/ShareAppModal';
 import { Group } from './types';
-import { groupService, BACKEND_BUSY_MESSAGE } from './api/apiClient';
+import { groupService, apiClient, BACKEND_BUSY_MESSAGE } from './api/apiClient';
 import { SplitzeeLoader } from './components/SplitzeeLoader';
 import { AlertCircle, X } from 'lucide-react';
 import logoImg from './assets/Logo.png';
@@ -47,9 +47,17 @@ const MainContent: React.FC = () => {
     };
 
     const handleBackendRetry = (e: any) => {
-      const { attempt, maxAttempts } = e.detail || {};
+      const { attempt } = e.detail || {};
       if (attempt) {
-        setRetryStatus(`Connecting to Splitzee (attempt ${attempt} of ${maxAttempts})...`);
+        if (attempt <= 2) {
+          setRetryStatus('Connecting to Splitzee...');
+        } else if (attempt <= 6) {
+          setRetryStatus('Waking up the server, please wait a moment...');
+        } else if (attempt <= 16) {
+          setRetryStatus('Backend is waking up (cloud cold-start)...');
+        } else {
+          setRetryStatus('Still warming up backend services, almost ready...');
+        }
       }
     };
 
@@ -59,6 +67,11 @@ const MainContent: React.FC = () => {
       window.removeEventListener('splitzee:backend-busy', handleBackendBusy);
       window.removeEventListener('splitzee:backend-retry', handleBackendRetry);
     };
+  }, []);
+
+  // Early background ping to kickstart Azure container wake-up immediately
+  useEffect(() => {
+    apiClient.get('/csrf-token/public').catch(() => {});
   }, []);
 
   const handleOpenShare = async () => {

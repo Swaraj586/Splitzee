@@ -23,6 +23,20 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [retryStatus, setRetryStatus] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    const handleRetry = (e: any) => {
+      const { attempt } = e.detail || {};
+      if (attempt && attempt > 2) {
+        setRetryStatus('Waking up the server, please wait a moment...');
+      }
+    };
+    window.addEventListener('splitzee:backend-retry', handleRetry);
+    return () => {
+      window.removeEventListener('splitzee:backend-retry', handleRetry);
+    };
+  }, []);
 
   if (!isOpen) return null;
 
@@ -32,6 +46,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
+    setRetryStatus(null);
     setLoading(true);
 
     try {
@@ -114,7 +129,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <div className="p-10 flex flex-col items-center justify-center min-h-[280px]">
             <SplitzeeLoader
               size="md"
-              text={isLoginTab ? 'Authenticating with Splitzee...' : 'Setting up your Splitzee account...'}
+              text={
+                retryStatus ||
+                (isLoginTab ? 'Authenticating with Splitzee...' : 'Setting up your Splitzee account...')
+              }
             />
           </div>
         ) : (
