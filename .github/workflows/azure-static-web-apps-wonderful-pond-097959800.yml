@@ -27,6 +27,8 @@ jobs:
 
       - name: Install and Build Frontend
         working-directory: ./frontend
+        env:
+          VITE_API_URL: "https://splitzee-backend-d9d6f4a7cagncscb.eastasia-01.azurewebsites.net"
         run: |
           npm install
           npm run build
