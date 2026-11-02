@@ -9,7 +9,25 @@ import {
   CreateGroupRequest,
 } from '../types';
 
-const API_BASE_URL = '/api';
+const resolveApiBaseUrl = (): string => {
+  // 1. Direct API endpoint specified via VITE_API_BASE_URL (e.g. "https://domain.com/api" or "/api")
+  const envApiUrl = import.meta.env.VITE_API_BASE_URL;
+  if (envApiUrl && envApiUrl.trim()) {
+    return envApiUrl.trim().replace(/\/+$/, '');
+  }
+
+  // 2. Base backend host specified via VITE_BACKEND_URL (e.g. "https://domain.com")
+  const envBackendUrl = import.meta.env.VITE_BACKEND_URL;
+  if (envBackendUrl && envBackendUrl.trim()) {
+    const cleaned = envBackendUrl.trim().replace(/\/+$/, '');
+    return cleaned.endsWith('/api') ? cleaned : `${cleaned}/api`;
+  }
+
+  // 3. Fallback to /api for local Vite dev proxy or reverse-proxy deployments
+  return '/api';
+};
+
+export const API_BASE_URL = resolveApiBaseUrl();
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -21,7 +39,7 @@ export const apiClient = axios.create({
 // Max request attempts when backend is not available
 export const MAX_BACKEND_ATTEMPTS = 5;
 export const RETRY_DELAY_MS = 1000;
-export const BACKEND_BUSY_MESSAGE = 'Busy right now, try again later!';
+export const BACKEND_BUSY_MESSAGE = 'Buzy right now try again letter';
 
 /**
  * Checks whether an error signifies that the backend is unavailable or unreachable
@@ -207,7 +225,7 @@ export const groupService = {
   createIndividual: async (email2: string): Promise<Group> => {
     const response = await apiClient.post<Group>(
       '/group/createIndividual',
-      {email: email2}
+      { email: email2 }
     );
     return response.data;
   },

@@ -132,7 +132,7 @@ export const SplitzeeLoader: React.FC<SplitzeeLoaderProps> = ({
               {error}
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              Not available at this moment.
+              Backend not available after 5 attempts.
             </p>
           </div>
 

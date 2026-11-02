@@ -49,7 +49,7 @@ const MainContent: React.FC = () => {
     const handleBackendRetry = (e: any) => {
       const { attempt, maxAttempts } = e.detail || {};
       if (attempt) {
-        setRetryStatus(`Connecting to Splitzee ...`);
+        setRetryStatus(`Connecting to Splitzee (attempt ${attempt} of ${maxAttempts})...`);
       }
     };
 
@@ -257,9 +257,8 @@ const MainContent: React.FC = () => {
   }
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans transition-colors duration-200 relative overflow-x-hidden ${
-      theme === 'dark' ? 'bg-slate-950 text-slate-100' : 'bg-slate-50/70 text-slate-900'
-    }`}>
+    <div className={`min-h-screen flex flex-col font-sans transition-colors duration-200 relative overflow-x-hidden ${theme === 'dark' ? 'bg-slate-950 text-slate-100' : 'bg-slate-50/70 text-slate-900'
+      }`}>
       {/* Ambient background glow for glassmorphism */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10" aria-hidden="true">
         <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-amber-400/15 dark:bg-amber-500/10 blur-[100px]" />
@@ -279,11 +278,10 @@ const MainContent: React.FC = () => {
       <main className="flex-1">
         {inviteBanner && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-            <div className={`flex items-center justify-between p-4 rounded-2xl text-sm backdrop-blur-md border ${
-              inviteBanner.type === 'success'
+            <div className={`flex items-center justify-between p-4 rounded-2xl text-sm backdrop-blur-md border ${inviteBanner.type === 'success'
                 ? 'bg-amber-50/80 dark:bg-amber-950/40 border-amber-200/80 dark:border-amber-800/80 text-amber-900 dark:text-amber-200 shadow-sm'
                 : 'bg-red-50/80 dark:bg-red-950/40 border-red-200/80 dark:border-red-800/80 text-red-900 dark:text-red-200 shadow-sm'
-            }`}>
+              }`}>
               <span>{inviteBanner.message}</span>
               <button
                 onClick={() => setInviteBanner(null)}
