@@ -3,8 +3,10 @@
 Splitzee is a full-stack expense-sharing application designed to simplify tracking shared expenses, calculating group balances, and settling debts among friends and groups.
 
 ---
+## Live Demo
+The application is deployed and available at: **[splitzee.spdev.tech](https://splitzee.spdev.tech)**
 
-## 🚀 Features
+## Features
 
 - **User Authentication**: Secure JWT-based authentication and email notifications (via Resend).
 - **Group & Direct Splitting**: Create group expenses or manage direct 1-to-1 splits.
@@ -14,7 +16,7 @@ Splitzee is a full-stack expense-sharing application designed to simplify tracki
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Backend**:
   - Java 23 & Spring Boot 4.x
@@ -30,7 +32,7 @@ Splitzee is a full-stack expense-sharing application designed to simplify tracki
 
 ---
 
-## 🗄️ Database Design (EER Diagram)
+## Database Design (EER Diagram)
 
 The application uses a relational schema designed for tracking multi-user groups, granular expense shares, and balance settlements.
 
@@ -50,7 +52,7 @@ The application uses a relational schema designed for tracking multi-user groups
 
 ---
 
-## 🏁 Getting Started
+## Getting Started
 
 ### Prerequisites
 
